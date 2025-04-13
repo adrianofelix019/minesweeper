@@ -2,11 +2,48 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Meu App Electron</title>
+  <title>Minesweeper - Electron</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(8, 40px);
+      gap: 4px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .cell {
+      width: 40px;
+      height: 40px;
+      font-weight: bold;
+      font-size: 16px;
+      background-color: #999;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .revealed {
+      background-color: #ddd;
+      color: black;
+      cursor: default;
+    }
+    .mine {
+      background-color: #e74c3c;
+    }
+    .flag {
+      background-color: #f39c12;
+    }
+  </style>
 </head>
 <body>
-  <h1>Olá, Electron!</h1>
-  <button id="meu-botao">Clique aqui</button>
+  <h1>💣 Campo Minado</h1>
+  <div id="grid" class="grid"></div>
+  <button onclick="resetGame()">🔄 Reiniciar</button>
 
   <script src="renderer.js"></script>
 </body>
