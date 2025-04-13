@@ -1,6 +1,30 @@
 const gridSize = 8;
 const numMines = 10;
 let grid = [];
+let timer = 0;
+let intervalId = null;
+let gameStarted = false;
+let flagsPlaced = 0;
+
+function updateUI() {
+  document.getElementById("timer").textContent = timer;
+  document.getElementById("flags").textContent = flagsPlaced;
+  document.getElementById("mines").textContent = numMines;
+}
+
+function startTimer() {
+  if (!gameStarted) {
+    gameStarted = true;
+    intervalId = setInterval(() => {
+      timer++;
+      updateUI();
+    }, 1000);
+  }
+}
+
+function stopTimer() {
+  clearInterval(intervalId);
+}
 
 function createCellElement(row, col) {
   const button = document.createElement("button");
@@ -8,7 +32,11 @@ function createCellElement(row, col) {
   button.dataset.row = row;
   button.dataset.col = col;
 
-  button.addEventListener("click", () => handleClick(row, col));
+  button.addEventListener("click", () => {
+    startTimer();
+    handleClick(row, col);
+  });
+
   button.addEventListener("contextmenu", (e) => {
     e.preventDefault();
     toggleFlag(row, col);
@@ -19,8 +47,6 @@ function createCellElement(row, col) {
 
 function generateGrid() {
   grid = [];
-
-  // Inicializa células
   for (let r = 0; r < gridSize; r++) {
     const row = [];
     for (let c = 0; c < gridSize; c++) {
@@ -35,7 +61,6 @@ function generateGrid() {
     grid.push(row);
   }
 
-  // Coloca minas aleatoriamente
   let minesPlaced = 0;
   while (minesPlaced < numMines) {
     const r = Math.floor(Math.random() * gridSize);
@@ -46,7 +71,6 @@ function generateGrid() {
     }
   }
 
-  // Conta minas vizinhas
   for (let r = 0; r < gridSize; r++) {
     for (let c = 0; c < gridSize; c++) {
       grid[r][c].neighborMines = countNeighborMines(r, c);
@@ -85,6 +109,8 @@ function renderGrid() {
       gridContainer.appendChild(cell.element);
     });
   });
+
+  updateUI();
 }
 
 function handleClick(row, col) {
@@ -96,19 +122,27 @@ function handleClick(row, col) {
 
   if (cell.isMine) {
     cell.element.classList.add("mine");
-    alert("💥 Você perdeu!");
     revealAll();
+    stopTimer();
+    setTimeout(() => alert("💥 Você perdeu!"), 50);
   } else if (cell.neighborMines === 0) {
     revealEmptyCells(row, col);
   }
+
+  checkWin();
 }
 
 function toggleFlag(row, col) {
   const cell = grid[row][col];
   if (cell.isRevealed) return;
 
+  if (!cell.isFlagged && flagsPlaced >= numMines) return;
+
   cell.isFlagged = !cell.isFlagged;
+  flagsPlaced += cell.isFlagged ? 1 : -1;
   updateCellUI(cell);
+  updateUI();
+  checkWin();
 }
 
 function updateCellUI(cell) {
@@ -161,7 +195,21 @@ function revealAll() {
   }
 }
 
+function checkWin() {
+  const allClear = grid.flat().every((cell) =>
+    cell.isMine ? true : cell.isRevealed
+  );
+  if (allClear) {
+    stopTimer();
+    setTimeout(() => alert("🏆 Você venceu!"), 50);
+  }
+}
+
 function resetGame() {
+  timer = 0;
+  flagsPlaced = 0;
+  gameStarted = false;
+  stopTimer();
   generateGrid();
 }
 
