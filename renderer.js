@@ -5,6 +5,7 @@ let timer = 0;
 let intervalId = null;
 let gameStarted = false;
 let flagsPlaced = 0;
+let defeated = false;
 
 function updateUI() {
   document.getElementById("timer").textContent = timer;
@@ -125,6 +126,7 @@ function handleClick(row, col) {
     revealAll();
     stopTimer();
     setTimeout(() => alert("💥 Você perdeu!"), 50);
+    defeated = true;
   } else if (cell.neighborMines === 0) {
     revealEmptyCells(row, col);
   }
@@ -199,7 +201,7 @@ function checkWin() {
   const allClear = grid.flat().every((cell) =>
     cell.isMine ? true : cell.isRevealed
   );
-  if (allClear) {
+  if (allClear && !defeated) {
     stopTimer();
     setTimeout(() => alert("🏆 Você venceu!"), 50);
   }
