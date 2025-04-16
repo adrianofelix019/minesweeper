@@ -1,26 +1,30 @@
-const { app, BrowserWindow } = require('electron');
-const path = require('path');
+const { app, BrowserWindow } = require("electron");
+const path = require("path");
+
+console.log(path.join(__dirname, "preload.js"));
+const preloadPath = "C:/Projects/javascript/minesweeper/preload.js";
 
 function createWindow() {
-  const win = new BrowserWindow({
+  const window = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'renderer.js'),
+      contextIsolation: true,
+      preload: preloadPath,
     },
   });
 
-  win.loadFile('index.html');
+  window.loadFile("index.html");
 }
 
 app.whenReady().then(() => {
   createWindow();
 
-  app.on('activate', () => {
+  app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") app.quit();
 });
