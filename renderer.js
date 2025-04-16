@@ -1,11 +1,18 @@
 const gridSize = 8;
 const numMines = 10;
+const clickSound = document.getElementById("click-sound");
+const explosionSound = document.getElementById("explosion-sound");
+
 let grid = [];
 let timer = 0;
 let intervalId = null;
 let gameStarted = false;
 let flagsPlaced = 0;
 let defeated = false;
+
+// const sounds = {
+//   click: new Audio(`${soundPath}/click.mp3`),
+// };
 
 function updateUI() {
   document.getElementById("timer").textContent = timer;
@@ -122,6 +129,9 @@ function handleClick(row, col) {
   updateCellUI(cell);
 
   if (cell.isMine) {
+    explosionSound.currentTime = 0;
+    explosionSound.play();
+
     cell.element.classList.add("mine");
     revealAll();
     stopTimer();
@@ -129,6 +139,11 @@ function handleClick(row, col) {
     defeated = true;
   } else if (cell.neighborMines === 0) {
     revealEmptyCells(row, col);
+  }
+
+  if (!cell.isMine) {
+    clickSound.currentTime = 0;
+    clickSound.play();
   }
 
   checkWin();

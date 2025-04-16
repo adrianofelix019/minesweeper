@@ -1,16 +1,15 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
 
-console.log(path.join(__dirname, "preload.js"));
-const preloadPath = "C:/Projects/javascript/minesweeper/preload.js";
-
 function createWindow() {
   const window = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
       contextIsolation: true,
-      preload: preloadPath,
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: false,
+      additionalArguments: [`--soundPath=${path.join(__dirname, "assets", "sounds")}`],
     },
   });
 
