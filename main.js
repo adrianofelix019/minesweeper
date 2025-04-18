@@ -7,7 +7,7 @@ function createWindow() {
     height: 600,
     webPreferences: {
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, "preload.js"),
       nodeIntegration: false,
       additionalArguments: [`--soundPath=${path.join(__dirname, "assets", "sounds")}`],
     },
