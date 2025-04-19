@@ -2,6 +2,7 @@ body {
     font-family: sans-serif;
     text-align: center;
     background-color: #f0f0f0;
+    font-family: 'Press Start 2P', cursive;
 }
 
 .grid {
@@ -87,3 +88,5 @@ body {
         0 2px 4px rgba(0, 0, 0, 0.15),
         inset 0 2px 3px rgba(0, 0, 0, 0.3);
 }
+
+/* TODO: colocar as fontes também nos campos e no botão reiniciar */
