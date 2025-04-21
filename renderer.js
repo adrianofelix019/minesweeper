@@ -10,10 +10,6 @@ let gameStarted = false;
 let flagsPlaced = 0;
 let defeated = false;
 
-// const sounds = {
-//   click: new Audio(`${soundPath}/click.mp3`),
-// };
-
 function updateUI() {
   document.getElementById("timer").textContent = timer;
   document.getElementById("flags").textContent = flagsPlaced;
