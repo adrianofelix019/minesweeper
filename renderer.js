@@ -1,5 +1,5 @@
 const gridSize = 8;
-const numMines = 10;
+const minesAmount = 10;
 const clickSound = document.getElementById("click-sound");
 const explosionSound = document.getElementById("explosion-sound");
 
@@ -17,7 +17,7 @@ let defeated = false;
 function updateUI() {
   document.getElementById("timer").textContent = timer;
   document.getElementById("flags").textContent = flagsPlaced;
-  document.getElementById("mines").textContent = numMines;
+  document.getElementById("mines").textContent = minesAmount;
 }
 
 function startTimer() {
@@ -70,7 +70,7 @@ function generateGrid() {
   }
 
   let minesPlaced = 0;
-  while (minesPlaced < numMines) {
+  while (minesPlaced < minesAmount) {
     const r = Math.floor(Math.random() * gridSize);
     const c = Math.floor(Math.random() * gridSize);
     if (!grid[r][c].isMine) {
@@ -153,7 +153,7 @@ function toggleFlag(row, col) {
   const cell = grid[row][col];
   if (cell.isRevealed) return;
 
-  if (!cell.isFlagged && flagsPlaced >= numMines) return;
+  if (!cell.isFlagged && flagsPlaced >= minesAmount) return;
 
   cell.isFlagged = !cell.isFlagged;
   flagsPlaced += cell.isFlagged ? 1 : -1;
