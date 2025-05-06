@@ -67,10 +67,10 @@ function generateGrid() {
 
   let minesPlaced = 0;
   while (minesPlaced < minesAmount) {
-    const r = Math.floor(Math.random() * gridSize);
-    const c = Math.floor(Math.random() * gridSize);
-    if (!grid[r][c].isMine) {
-      grid[r][c].isMine = true;
+    const randomRow = Math.floor(Math.random() * gridSize);
+    const randomColumn = Math.floor(Math.random() * gridSize);
+    if (!grid[randomRow][randomColumn].isMine) {
+      grid[randomRow][randomColumn].isMine = true;
       minesPlaced++;
     }
   }
