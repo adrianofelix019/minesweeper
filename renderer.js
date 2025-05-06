@@ -209,10 +209,13 @@ function revealAll() {
 }
 
 function checkWin() {
-  const allClear = grid.flat().every((cell) =>
-    cell.isMine ? true : cell.isRevealed
+  const cells = grid.flat();
+
+  const allSafeCellsRevealed = cells.every(cell =>
+     cell.isMine || cell.isRevealed
   );
-  if (allClear && !defeated) {
+
+  if (allSafeCellsRevealed && !defeated) {
     stopTimer();
     setTimeout(() => alert("🏆 Você venceu!"), 50);
   }
@@ -226,5 +229,4 @@ function resetGame() {
   generateGrid();
 }
 
-// Inicia o jogo
 window.onload = resetGame;
